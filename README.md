@@ -52,3 +52,19 @@ js/app.js         interface : éditeurs, visualisation, pages
 ```
 
 Pour ajouter une leçon, un exercice ou un équipement, il suffit de modifier `js/content.js`.
+
+## Application Android
+
+Le fichier **`android/dist/pulse.apk`** est prêt à installer. C'est le site complet, embarqué dans l'application : il fonctionne hors-ligne, la progression est sauvegardée et les liens externes s'ouvrent dans le navigateur.
+
+**Installation sur le téléphone** : copier l'APK sur le téléphone, l'ouvrir, puis autoriser « Installer des applications inconnues » quand Android le demande. Android 7.0 ou plus récent est requis.
+
+**Reconstruire l'APK après une modification du site** :
+
+```bash
+./android/build.sh        # Java 17+, Python 3 et curl suffisent
+```
+
+Le SDK Android n'est pas nécessaire. Le script télécharge les outils depuis Maven Central (le framework Android 14, `dx` et `apksig`), et `android/tools/apkbuild.py` encode lui-même le manifeste binaire et la table de ressources.
+
+**Signature** : l'APK est signé avec la clé de développement `android/pulse-debug.p12` (mot de passe `pulse-debug`). Comme elle est conservée dans le dépôt, chaque nouvelle version peut s'installer par-dessus l'ancienne. Cette clé est publique : pour publier sur le Play Store, il faut créer ta propre clé et la passer au script via `PULSE_KEYSTORE`, `PULSE_STOREPASS` et `PULSE_KEYALIAS`.
